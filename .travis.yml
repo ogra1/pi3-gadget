@@ -1,0 +1,21 @@
+language: shell
+dist: xenial
+env:
+  global:
+    - URL=http://cdimage.ubuntu.com/ubuntu-base/xenial/daily/current/xenial-base-amd64.tar.gz
+    - CHROOT=xenial-test-chroot
+    - CHROOT_RUN="sudo chroot $CHROOT"
+    - LC_ALL=C.UTF-8
+    - LANG=C.UTF-8
+install:
+  - mkdir -p $CHROOT/build
+  - wget -q -O - $URL | zcat - | sudo tar x -C $CHROOT
+  - sudo cp /etc/resolv.conf $CHROOT/etc/
+  - sudo mount --rbind /dev $CHROOT/dev
+  - sudo mount --rbind /proc $CHROOT/proc
+  - sudo mount --rbind /sys $CHROOT/sys
+  - $CHROOT_RUN apt update
+  - $CHROOT_RUN apt install -y gcc-arm-linux-gnueabihf snapcraft git
+script:
+  # run unit tests in a virtual machine
+  - $CHROOT_RUN sh -c 'snapcraft'
