@@ -17,5 +17,4 @@ install:
   - $CHROOT_RUN apt update
   - $CHROOT_RUN apt install -y gcc-arm-linux-gnueabihf snapcraft git
 script:
-  # run unit tests in a virtual machine
   - $CHROOT_RUN sh -c 'snapcraft'
