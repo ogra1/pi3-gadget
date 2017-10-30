@@ -17,4 +17,5 @@ install:
   - $CHROOT_RUN apt update
   - $CHROOT_RUN apt install -y gcc-arm-linux-gnueabihf snapcraft git
 script:
-  - $CHROOT_RUN sh -c 'snapcraft'
+  - $CHROOT_RUN sh -c 'git clone --depth=50 --branch=travis https://github.com/ogra1/pi3-gadget.git'
+  - $CHROOT_RUN sh -c 'cd pi3-gadget; LC_ALL=C.UTF-8 snapcraft'
